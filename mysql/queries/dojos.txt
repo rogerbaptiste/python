@@ -1,0 +1,48 @@
+USE dojos_and_ninjas; 
+
+INSERT INTO dojo (name) 
+VALUES ('CodingDojo'),
+('CourseConnect'),
+('CodingKingdom');
+
+SELECT *
+FROM dojo;
+
+DELETE FROM dojo
+WHERE id BETWEEN 1 and 3;
+
+INSERT INTO dojo (name) 
+VALUES ('Coding Hero'),
+('Code Academy'),
+('Developers Paradise');
+
+
+INSERT INTO ninjas (first_name,last_name,age,dojo_id)
+VALUES 
+("Roger","Baptiste",25,4),
+("Gaelle", "Hilaire",23, 4),
+('Damon','Salvatore',535, 4),
+('Derek','Jean',17,5),
+('Derryl','Jean',16,5),
+('Dario','Jean',16,5),
+('Darly','Jean',12,6),
+('Tariq','St. Patrick',22, 6),
+('Lauren','Baldwin',30, 6);
+
+SELECT *   					-- Retrieve all the ninjas from the first dojo
+FROM dojo
+LEFT JOIN ninjas 
+ON dojo.id = ninjas.dojo_id
+WHERE dojo.id = 4;
+
+SELECT * FROM dojos			 -- Retrieve all the ninjas from the last dojo
+LEFT JOIN ninjas ON dojos.id = ninjas.dojo_id
+	WHERE dojos.id = (SELECT id FROM dojos ORDER BY id DESC LIMIT 1);
+
+SELECT dojo.name FROM dojo     -- Retrieve the last ninja's dojo
+LEFT JOIN ninjas
+ON dojo.id = ninjas.dojo_id
+WHERE ninjas.id = (SELECT ninjas.id FROM ninjas ORDER BY ninjas.id DESC LIMIT 1);
+							-- OR Another method
+SELECT * FROM dojo
+WHERE dojo.id = (SELECT dojo_id FROM ninjas ORDER BY dojo_id DESC LIMIT 1);
